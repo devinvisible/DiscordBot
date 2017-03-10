@@ -10,6 +10,8 @@ namespace DiscordBot
 
         public async Task Run()
         {
+            var config = BotConfig.ReadConfig();
+
             var client = new DiscordSocketClient(new DiscordSocketConfig
             {
                 WebSocketProvider = () => new Win7WebSocketClient()
@@ -21,7 +23,7 @@ namespace DiscordBot
                     await message.Channel.SendMessageAsync("pong");
             };
             
-            await client.LoginAsync(TokenType.Bot, "your-bot-token");
+            await client.LoginAsync(TokenType.Bot, config.Token);
             await client.StartAsync();
             
             await Task.Delay(-1);
