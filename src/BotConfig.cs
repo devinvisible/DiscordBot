@@ -10,7 +10,7 @@ namespace DiscordBot
         [JsonProperty("token")]
         public string Token { get; set; } = "YOUR TOKEN HERE";
         [JsonProperty("prefix")]
-        public string Prefix { get; set; } = "?";
+        public char Prefix { get; set; } = '?';
 
         public static BotConfig ReadConfig()
         {

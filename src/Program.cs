@@ -1,9 +1,11 @@
 ﻿using Discord;
+using Discord.Commands;
 using Discord.WebSocket;
 using NLog;
 using NLog.Config;
 using NLog.Targets;
 using System;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace DiscordBot
@@ -12,6 +14,9 @@ namespace DiscordBot
     {
         static void Main(string[] args) => new Program().Run().GetAwaiter().GetResult();
 
+        private CommandHandler CommandHandler;
+        private CommandService CommandService;
+        private DiscordSocketClient Client;
         private Logger logger;
 
         public async Task Run()
@@ -22,24 +27,33 @@ namespace DiscordBot
                 logger.Info("Loading configuration");
                 var config = BotConfig.ReadConfig();
 
-                var client = new DiscordSocketClient(new DiscordSocketConfig
+                // Initialize Client
+                Client = new DiscordSocketClient(new DiscordSocketConfig
                 {
-                    LogLevel = LogSeverity.Verbose,
+                    LogLevel = LogSeverity.Info,
                     WebSocketProvider = () => new Win7WebSocketClient()
                 });
-                client.Log += DiscordClient_Log;
+                Client.Log += DiscordClient_Log;
 
-                client.MessageReceived += async (message) =>
+                // Initialize CommandService
+                CommandService = new CommandService(new CommandServiceConfig()
                 {
-                    if (message.Content == "!ping")
-                        await message.Channel.SendMessageAsync("pong");
-                };
+                    CaseSensitiveCommands = false,
+                    DefaultRunMode = RunMode.Sync
+                });
+                await CommandService.AddModulesAsync(this.GetType().GetTypeInfo().Assembly);
 
+                // Initialize Command Handler
+                CommandHandler = new CommandHandler(Client, CommandService, config);
+                Client.MessageReceived += CommandHandler.OnMessageReceived;
+                Client.MessageUpdated += CommandHandler.OnMessageUpdated;
+
+                // Start the bot
                 logger.Info("Logging in and starting");
-                await client.LoginAsync(TokenType.Bot, config.Token);
-                await client.StartAsync();
-
+                await Client.LoginAsync(TokenType.Bot, config.Token);
+                await Client.StartAsync();
                 logger.Info("Bot started!");
+
                 await Task.Delay(-1);
             }
             catch (Exception e)
