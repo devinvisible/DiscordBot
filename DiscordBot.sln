@@ -4,6 +4,26 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 15.0.26228.4
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiscordBot", "src\DiscordBot.csproj", "{DE562BDA-1161-4638-9F2D-D4C0BBAAAF9A}"
+	ProjectSection(ProjectDependencies) = postProject
+		{9B28BF0E-690C-448E-8751-6EED8F50DF68} = {9B28BF0E-690C-448E-8751-6EED8F50DF68}
+		{B8B8B910-1693-4AFC-9DFA-DF83BCF833EF} = {B8B8B910-1693-4AFC-9DFA-DF83BCF833EF}
+		{8D05976B-FA7C-4ED2-AA56-694B20B5890A} = {8D05976B-FA7C-4ED2-AA56-694B20B5890A}
+		{8073A69F-54AB-4123-8D58-82F2117D09DA} = {8073A69F-54AB-4123-8D58-82F2117D09DA}
+		{3845B3CB-C233-42C0-B6F6-86F308689E5E} = {3845B3CB-C233-42C0-B6F6-86F308689E5E}
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Discord.Net.Core", "Discord.Net\src\Discord.Net.Core\Discord.Net.Core.csproj", "{8073A69F-54AB-4123-8D58-82F2117D09DA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Discord.Net.Commands", "Discord.Net\src\Discord.Net.Commands\Discord.Net.Commands.csproj", "{B8B8B910-1693-4AFC-9DFA-DF83BCF833EF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Discord.Net.WebSocket", "Discord.Net\src\Discord.Net.WebSocket\Discord.Net.WebSocket.csproj", "{3845B3CB-C233-42C0-B6F6-86F308689E5E}"
+	ProjectSection(ProjectDependencies) = postProject
+		{8D05976B-FA7C-4ED2-AA56-694B20B5890A} = {8D05976B-FA7C-4ED2-AA56-694B20B5890A}
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Discord.Net.Rest", "Discord.Net\src\Discord.Net.Rest\Discord.Net.Rest.csproj", "{8D05976B-FA7C-4ED2-AA56-694B20B5890A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Discord.Net.Rpc", "Discord.Net\src\Discord.Net.Rpc\Discord.Net.Rpc.csproj", "{9B28BF0E-690C-448E-8751-6EED8F50DF68}"
 EndProject
 Global
 	GlobalSection(Performance) = preSolution
@@ -18,6 +38,26 @@ Global
 		{DE562BDA-1161-4638-9F2D-D4C0BBAAAF9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DE562BDA-1161-4638-9F2D-D4C0BBAAAF9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DE562BDA-1161-4638-9F2D-D4C0BBAAAF9A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8073A69F-54AB-4123-8D58-82F2117D09DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8073A69F-54AB-4123-8D58-82F2117D09DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8073A69F-54AB-4123-8D58-82F2117D09DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8073A69F-54AB-4123-8D58-82F2117D09DA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B8B8B910-1693-4AFC-9DFA-DF83BCF833EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8B8B910-1693-4AFC-9DFA-DF83BCF833EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8B8B910-1693-4AFC-9DFA-DF83BCF833EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8B8B910-1693-4AFC-9DFA-DF83BCF833EF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3845B3CB-C233-42C0-B6F6-86F308689E5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3845B3CB-C233-42C0-B6F6-86F308689E5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3845B3CB-C233-42C0-B6F6-86F308689E5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3845B3CB-C233-42C0-B6F6-86F308689E5E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8D05976B-FA7C-4ED2-AA56-694B20B5890A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8D05976B-FA7C-4ED2-AA56-694B20B5890A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8D05976B-FA7C-4ED2-AA56-694B20B5890A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8D05976B-FA7C-4ED2-AA56-694B20B5890A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9B28BF0E-690C-448E-8751-6EED8F50DF68}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B28BF0E-690C-448E-8751-6EED8F50DF68}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9B28BF0E-690C-448E-8751-6EED8F50DF68}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9B28BF0E-690C-448E-8751-6EED8F50DF68}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
