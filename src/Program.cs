@@ -36,11 +36,7 @@ namespace DiscordBot
                 Client.Log += DiscordClient_Log;
 
                 // Initialize CommandService
-                CommandService = new CommandService(new CommandServiceConfig()
-                {
-                    CaseSensitiveCommands = false,
-                    DefaultRunMode = RunMode.Sync
-                });
+                CommandService = new CommandService(new CommandServiceConfig());
                 await CommandService.AddModulesAsync(this.GetType().GetTypeInfo().Assembly);
 
                 // Initialize Command Handler
