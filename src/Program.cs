@@ -16,6 +16,7 @@ namespace DiscordBot
 
         private CommandHandler CommandHandler;
         private CommandService CommandService;
+        private DependencyMap DependencyMap;
         private DiscordSocketClient Client;
         private Logger logger;
 
@@ -30,17 +31,23 @@ namespace DiscordBot
                 // Initialize Client
                 Client = new DiscordSocketClient(new DiscordSocketConfig
                 {
-                    LogLevel = LogSeverity.Info,
+                    LogLevel = LogSeverity.Debug,
                     WebSocketProvider = () => new Win7WebSocketClient()
                 });
                 Client.Log += DiscordClient_Log;
 
+                // Initialize the dependency map
+                DependencyMap = new DependencyMap();
+                DependencyMap.Add(Client);
+                DependencyMap.Add(new Service.Music.AudioService());
+
                 // Initialize CommandService
                 CommandService = new CommandService(new CommandServiceConfig());
+                DependencyMap.Add(CommandService);
                 await CommandService.AddModulesAsync(this.GetType().GetTypeInfo().Assembly);
 
                 // Initialize Command Handler
-                CommandHandler = new CommandHandler(Client, CommandService, config);
+                CommandHandler = new CommandHandler(Client, CommandService, DependencyMap, config);
                 Client.MessageReceived += CommandHandler.OnMessageReceived;
                 Client.MessageUpdated += CommandHandler.OnMessageUpdated;
 

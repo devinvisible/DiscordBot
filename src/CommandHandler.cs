@@ -13,15 +13,18 @@ namespace DiscordBot
         private readonly CommandService CommandService;
         private Logger Logger;
         private char Prefix;
+        private DependencyMap DependencyMap;
+        private BotConfig config;
 
-        public CommandHandler(DiscordSocketClient client, CommandService commandService, BotConfig config)
+        public CommandHandler(DiscordSocketClient client, CommandService commandService, DependencyMap dependencyMap, BotConfig config)
         {
             Client = client;
             CommandService = commandService;
+            DependencyMap = dependencyMap;
             Logger = LogManager.GetCurrentClassLogger();
             Prefix = config.Prefix;
         }
-        
+
         internal async Task OnMessageReceived(SocketMessage messageParam)
         {
             // Don't process the command if it was a System Message
@@ -42,7 +45,7 @@ namespace DiscordBot
             
             // Execute the command. (result does not indicate a return value, 
             // rather an object stating if the command executed succesfully)
-            var result = await CommandService.ExecuteAsync(context, argPos);
+            var result = await CommandService.ExecuteAsync(context, argPos, DependencyMap);
             if (!result.IsSuccess)
                 await context.Channel.SendMessageAsync(result.ErrorReason);
         }
