@@ -1,100 +1,61 @@
-﻿using Discord;
+﻿
+using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
-using NLog;
-using NLog.Config;
-using NLog.Targets;
+using DiscordBot.Services;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using System;
-using System.Reflection;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace DiscordBot
 {
     class Program
     {
-        static void Main(string[] args) => new Program().Run().GetAwaiter().GetResult();
+        static void Main(string[] args) => new Program().MainAsync().GetAwaiter().GetResult();
 
-        private CommandHandler CommandHandler;
-        private CommandService CommandService;
-        private DependencyMap DependencyMap;
-        private DiscordSocketClient Client;
-        private Logger logger;
+        private DiscordSocketClient _client;
+        private IConfiguration _config;
 
-        public async Task Run()
+        public async Task MainAsync()
         {
-            logger = InitializeLogger();
-            try
-            {
-                logger.Info("Loading configuration");
-                var config = BotConfig.ReadConfig();
+            _client = new DiscordSocketClient();
+            _config = BuildConfig();
 
-                // Initialize Client
-                Client = new DiscordSocketClient(new DiscordSocketConfig
-                {
-                    LogLevel = LogSeverity.Debug,
-                    WebSocketProvider = () => new Win7WebSocketClient()
-                });
-                Client.Log += DiscordClient_Log;
+            var services = ConfigureServices();
+            services.GetRequiredService<LogService>();
+            await services.GetRequiredService<CommandHandlingService>().InitializeAsync(services);
 
-                // Initialize the dependency map
-                DependencyMap = new DependencyMap();
-                DependencyMap.Add(Client);
-                DependencyMap.Add(new Service.Music.AudioService());
+            await _client.LoginAsync(TokenType.Bot, _config["token"]);
+            await _client.StartAsync();
 
-                // Initialize CommandService
-                CommandService = new CommandService(new CommandServiceConfig());
-                DependencyMap.Add(CommandService);
-                await CommandService.AddModulesAsync(this.GetType().GetTypeInfo().Assembly);
-
-                // Initialize Command Handler
-                CommandHandler = new CommandHandler(Client, CommandService, DependencyMap, config);
-                Client.MessageReceived += CommandHandler.OnMessageReceived;
-                Client.MessageUpdated += CommandHandler.OnMessageUpdated;
-
-                // Start the bot
-                logger.Info("Logging in and starting");
-                await Client.LoginAsync(TokenType.Bot, config.Token);
-                await Client.StartAsync();
-                logger.Info("Bot started!");
-
-                await Task.Delay(-1);
-            }
-            catch (Exception e)
-            {
-                logger.Fatal(e);
-            }
+            await Task.Delay(-1);
         }
 
-        private Logger InitializeLogger()
+        private IServiceProvider ConfigureServices()
         {
-            try
-            {
-                var logConfig = new LoggingConfiguration();
-                var consoleTarget = new ColoredConsoleTarget();
-
-                consoleTarget.Layout = @"${date:format=HH\:mm\:ss} ${logger} | ${message}";
-
-                logConfig.AddTarget("Console", consoleTarget);
-
-                logConfig.LoggingRules.Add(new LoggingRule("*", LogLevel.Debug, consoleTarget));
-
-                LogManager.Configuration = logConfig;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-            }
-
-            return LogManager.GetCurrentClassLogger();
+            return new ServiceCollection()
+                // Base
+                .AddSingleton(_client)
+                .AddSingleton<CommandService>()
+                .AddSingleton<CommandHandlingService>()
+                // Logging
+                .AddLogging()
+                .AddSingleton<LogService>()
+                // Extra
+                .AddSingleton(_config)
+                // Add additional services here...
+                .BuildServiceProvider();
         }
 
-        private Task DiscordClient_Log(LogMessage arg)
+        private IConfiguration BuildConfig()
         {
-            logger.Warn(arg.Source + " | " + arg.Message);
-            if (arg.Exception != null)
-                logger.Warn(arg.Exception);
-
-            return Task.CompletedTask;
+            Console.WriteLine($"Reading configuration from: {Directory.GetCurrentDirectory()}\\config.json");
+            return new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("config.json")
+                .Build();
         }
     }
 }
