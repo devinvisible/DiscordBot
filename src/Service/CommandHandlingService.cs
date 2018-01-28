@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
+using Microsoft.Extensions.Configuration;
 
 namespace DiscordBot.Services
 {
@@ -11,13 +12,15 @@ namespace DiscordBot.Services
     {
         private readonly DiscordSocketClient _discord;
         private readonly CommandService _commands;
+        private readonly IConfiguration _config;
         private IServiceProvider _provider;
 
-        public CommandHandlingService(IServiceProvider provider, DiscordSocketClient discord, CommandService commands)
+        public CommandHandlingService(IServiceProvider provider, DiscordSocketClient discord, CommandService commands, IConfiguration config)
         {
             _discord = discord;
             _commands = commands;
             _provider = provider;
+            _config = config;
 
             _discord.MessageReceived += MessageReceived;
         }
@@ -36,7 +39,7 @@ namespace DiscordBot.Services
             if (message.Source != MessageSource.User) return;
 
             int argPos = 0;
-            if (message.HasCharPrefix('?', ref argPos) &&
+            if (message.HasStringPrefix(_config["prefix"], ref argPos) &&
                 message.HasMentionPrefix(_discord.CurrentUser, ref argPos)) return;
 
             var context = new SocketCommandContext(_discord, message);
