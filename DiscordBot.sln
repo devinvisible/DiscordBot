@@ -1,11 +1,10 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26228.4
+VisualStudioVersion = 15.0.27130.2024
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiscordBot", "src\DiscordBot.csproj", "{DE562BDA-1161-4638-9F2D-D4C0BBAAAF9A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DiscordBot", "src\DiscordBot.csproj", "{DE562BDA-1161-4638-9F2D-D4C0BBAAAF9A}"
 	ProjectSection(ProjectDependencies) = postProject
-		{9B28BF0E-690C-448E-8751-6EED8F50DF68} = {9B28BF0E-690C-448E-8751-6EED8F50DF68}
 		{B8B8B910-1693-4AFC-9DFA-DF83BCF833EF} = {B8B8B910-1693-4AFC-9DFA-DF83BCF833EF}
 		{8D05976B-FA7C-4ED2-AA56-694B20B5890A} = {8D05976B-FA7C-4ED2-AA56-694B20B5890A}
 		{8073A69F-54AB-4123-8D58-82F2117D09DA} = {8073A69F-54AB-4123-8D58-82F2117D09DA}
@@ -23,12 +22,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Discord.Net.WebSocket", "Di
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Discord.Net.Rest", "Discord.Net\src\Discord.Net.Rest\Discord.Net.Rest.csproj", "{8D05976B-FA7C-4ED2-AA56-694B20B5890A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Discord.Net.Rpc", "Discord.Net\src\Discord.Net.Rpc\Discord.Net.Rpc.csproj", "{9B28BF0E-690C-448E-8751-6EED8F50DF68}"
-EndProject
 Global
-	GlobalSection(Performance) = preSolution
-		HasPerformanceSessions = true
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
@@ -54,12 +48,14 @@ Global
 		{8D05976B-FA7C-4ED2-AA56-694B20B5890A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8D05976B-FA7C-4ED2-AA56-694B20B5890A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8D05976B-FA7C-4ED2-AA56-694B20B5890A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9B28BF0E-690C-448E-8751-6EED8F50DF68}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9B28BF0E-690C-448E-8751-6EED8F50DF68}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9B28BF0E-690C-448E-8751-6EED8F50DF68}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9B28BF0E-690C-448E-8751-6EED8F50DF68}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {704ABF67-6AF8-4A40-A045-492058049321}
+	EndGlobalSection
+	GlobalSection(Performance) = preSolution
+		HasPerformanceSessions = true
 	EndGlobalSection
 EndGlobal
