@@ -13,7 +13,18 @@ namespace DiscordBot
 {
     class Program
     {
-        static void Main(string[] args) => new Program().MainAsync().GetAwaiter().GetResult();
+        static void Main(string[] args)
+        {
+            try
+            {
+                new Program().MainAsync().Wait();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+                Console.ReadKey();
+            }
+        }
 
         private DiscordSocketClient _client;
         private IConfiguration _config;
