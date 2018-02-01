@@ -1,5 +1,6 @@
 ﻿using Discord;
 using Discord.Commands;
+using Microsoft.Extensions.Configuration;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -8,16 +9,17 @@ namespace DiscordBot.Modules
     public class HelpModule : ModuleBase
     {
         private CommandService _service;
+        private IConfiguration _config;
 
-        public HelpModule(CommandService service)           // Create a constructor for the commandservice dependency
+        public HelpModule(CommandService service, IConfiguration config)
         {
             _service = service;
+            _config = config;
         }
 
         [Command("help")]
         public async Task HelpAsync()
         {
-            string prefix = "?";// Configuration.Load().Prefix;
             var builder = new EmbedBuilder()
             {
                 Color = new Color(114, 137, 218),
@@ -31,7 +33,7 @@ namespace DiscordBot.Modules
                 {
                     var result = await cmd.CheckPreconditionsAsync(Context);
                     if (result.IsSuccess)
-                        description += $"{prefix}{cmd.Aliases.First()}\n";
+                        description += $"{_config["prefix"]}{cmd.Aliases.First()}\n";
                 }
 
                 if (!string.IsNullOrWhiteSpace(description))
@@ -58,8 +60,7 @@ namespace DiscordBot.Modules
                 await ReplyAsync($"Sorry, I couldn't find a command like **{command}**.");
                 return;
             }
-
-            string prefix = "?"; //Configuration.Load().Prefix;
+            
             var builder = new EmbedBuilder()
             {
                 Color = new Color(114, 137, 218),
