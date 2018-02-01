@@ -46,18 +46,21 @@ namespace DiscordBot
 
         private IServiceProvider ConfigureServices()
         {
-            return new ServiceCollection()
-                // Base
-                .AddSingleton(_client)
-                .AddSingleton<CommandService>()
-                .AddSingleton<CommandHandlingService>()
-                // Logging
-                .AddLogging()
-                .AddSingleton<LogService>()
-                // Extra
-                .AddSingleton(_config)
-                // Add additional services here...
-                .BuildServiceProvider();
+            var services = new ServiceCollection();
+
+            // Discord
+            services.AddSingleton(_client);
+            services.AddSingleton<CommandService>();
+            services.AddSingleton<CommandHandlingService>();
+
+            // Logging
+            services.AddLogging();
+            services.AddSingleton<LogService>();
+
+            // Configuration
+            services.AddSingleton(_config);
+
+            return services.BuildServiceProvider();
         }
 
         private IConfiguration BuildConfig()
