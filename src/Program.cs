@@ -33,7 +33,7 @@ namespace DiscordBot
 
         public async Task MainAsync()
         {
-            _client = new DiscordSocketClient();
+            _client = new DiscordSocketClient(new DiscordSocketConfig() { LogLevel = LogSeverity.Debug });
             _config = BuildConfig();
 
             var services = ConfigureServices();
