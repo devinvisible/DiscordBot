@@ -40,6 +40,8 @@ namespace DiscordBot
             services.GetRequiredService<LogService>();
             await services.GetRequiredService<CommandHandlingService>().InitializeAsync(services);
 
+            services.GetRequiredService<UserMonitoringService>();
+
             await _client.LoginAsync(TokenType.Bot, _config["token"]);
             await _client.StartAsync();
 
@@ -61,6 +63,9 @@ namespace DiscordBot
 
             // Configuration
             services.AddSingleton(_config);
+
+            // My Services
+            services.AddSingleton<UserMonitoringService>();
 
             return services.BuildServiceProvider();
         }
