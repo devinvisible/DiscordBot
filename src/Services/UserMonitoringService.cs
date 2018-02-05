@@ -20,6 +20,43 @@ namespace DiscordBot.Services
             _discord.UserJoined += OnUserJoined;
             _discord.GuildMemberUpdated += OnGuildMemberUpdated;
             _discord.UserLeft += OnUserLeft;
+
+            _discord.GuildAvailable += OnGuildAvailable;
+            _discord.JoinedGuild += OnJoinedGuild;
+            _discord.LoggedIn += OnLoggedIn;
+            _discord.Ready += OnReady;
+            _discord.UserIsTyping += OnUserIsTyping;
+            _discord.UserUpdated += OnUserUpdated;
+        }
+
+        private async Task OnUserUpdated(SocketUser before, SocketUser after)
+        {
+            _logger.LogInformation($"OnUserUpdated {DateTime.Now} {after.Username}");
+        }
+
+        private async Task OnUserIsTyping(SocketUser user, ISocketMessageChannel channel)
+        {
+            _logger.LogInformation($"OnUserIsTyping {DateTime.Now} {user.Username} is typing in {channel.Name}");
+        }
+
+        private async Task OnReady()
+        {
+            _logger.LogInformation($"OnReady {DateTime.Now}");
+        }
+
+        private async Task OnLoggedIn()
+        {
+            _logger.LogInformation($"OnLoggedIn {DateTime.Now}");
+        }
+
+        private async Task OnJoinedGuild(SocketGuild guild)
+        {
+            _logger.LogInformation($"OnJoinedGuild {DateTime.Now} {guild.Name}");
+        }
+
+        private async Task OnGuildAvailable(SocketGuild guild)
+        {
+            _logger.LogInformation($"OnGuildAvailable {DateTime.Now} {guild.Name}");
         }
 
         private async Task OnUserJoined(SocketGuildUser user)
