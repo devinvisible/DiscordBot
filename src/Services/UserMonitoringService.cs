@@ -67,6 +67,16 @@ namespace DiscordBot.Services
         private async Task OnGuildMemberUpdated(SocketGuildUser before_socketGuildUser, SocketGuildUser after_socketGuildUser)
         {
             _logger.LogInformation($"OnGuildMemberUpdated {DateTime.Now} on {after_socketGuildUser.Guild.Name}: {after_socketGuildUser.Username} is {after_socketGuildUser.Status}");
+
+            //using (var context = new MonitoredUsersContext())
+            //{
+            //    var user = 
+
+            //    var update = new GuildMemberUpdate
+            //    {
+                    
+            //    }
+            //}
         }
 
         private async Task OnUserLeft(SocketGuildUser user)

@@ -64,6 +64,9 @@ namespace DiscordBot
             // Configuration
             services.AddSingleton(_config);
 
+            // Database
+            services.AddDbContext<MonitoredUsersContext>();
+
             // My Services
             services.AddSingleton<UserMonitoringService>();
 
