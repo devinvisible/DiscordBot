@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace DiscordBot
@@ -9,11 +10,8 @@ namespace DiscordBot
     public class MonitoredUsersContext : DbContext
     {
         public DbSet<User> Users { get; set; }
+        public DbSet<Guild> Guilds { get; set; }
         public DbSet<GuildMemberUpdate> Updates { get; set; }
-
-        public MonitoredUsersContext(DbContextOptions<MonitoredUsersContext> options) : base(options)
-        {
-        }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -22,23 +20,23 @@ namespace DiscordBot
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<GuildMemberUpdate>()
-                .Property(u => u.Timestamp)
-                .HasDefaultValueSql("getdate()");
+            //modelBuilder.Entity<GuildMemberUpdate>()
+            //    .Property(u => u.Timestamp)
+            //    .HasDefaultValueSql("strftime('%s','now')"); // sqlite specific
         }
     }
 
     public class User
     {
         [Key]
-        public int DiscordId { get; set; }
+        public ulong DiscordId { get; set; }
         public string UserName { get; set; }
     }
 
     public class Guild
     {
         [Key]
-        public int DiscordGuildId { get; set; }
+        public ulong DiscordGuildId { get; set; }
         public string GuildName { get; set; }
     }
 
@@ -53,9 +51,10 @@ namespace DiscordBot
 
     public class GuildMemberUpdate
     {
+        public int Id { get; set; }
         public Guild Guild { get; set; }
         public User User { get; set; }
         public Status Status { get; set; }
-        public DateTime Timestamp { get; set; }
+        public DateTimeOffset Timestamp { get; set; }
     }
 }
