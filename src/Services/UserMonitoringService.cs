@@ -29,39 +29,46 @@ namespace DiscordBot.Services
             _discord.UserUpdated += OnUserUpdated;
         }
 
-        private async Task OnUserUpdated(SocketUser before, SocketUser after)
+        private Task OnUserUpdated(SocketUser before, SocketUser after)
         {
             _logger.LogInformation($"OnUserUpdated {DateTime.Now} {after.Username}");
+            return Task.CompletedTask;
         }
 
-        private async Task OnUserIsTyping(SocketUser user, ISocketMessageChannel channel)
+        private Task OnUserIsTyping(SocketUser user, ISocketMessageChannel channel)
         {
             _logger.LogInformation($"OnUserIsTyping {DateTime.Now} {user.Username} is typing in {channel.Name}");
+            return Task.CompletedTask;
         }
 
-        private async Task OnReady()
+        private Task OnReady()
         {
             _logger.LogInformation($"OnReady {DateTime.Now}");
+            return Task.CompletedTask;
         }
 
-        private async Task OnLoggedIn()
+        private Task OnLoggedIn()
         {
             _logger.LogInformation($"OnLoggedIn {DateTime.Now}");
+            return Task.CompletedTask;
         }
 
-        private async Task OnJoinedGuild(SocketGuild guild)
+        private Task OnJoinedGuild(SocketGuild guild)
         {
             _logger.LogInformation($"OnJoinedGuild {DateTime.Now} {guild.Name}");
+            return Task.CompletedTask;
         }
 
-        private async Task OnGuildAvailable(SocketGuild guild)
+        private Task OnGuildAvailable(SocketGuild guild)
         {
             _logger.LogInformation($"OnGuildAvailable {DateTime.Now} {guild.Name}");
+            return Task.CompletedTask;
         }
 
-        private async Task OnUserJoined(SocketGuildUser user)
+        private Task OnUserJoined(SocketGuildUser user)
         {
             _logger.LogInformation($"OnUserJoined {DateTime.Now} on {user.Guild.Name}: {user.Username} joined");
+            return Task.CompletedTask;
         }
 
         private async Task OnGuildMemberUpdated(SocketGuildUser before_socketGuildUser, SocketGuildUser after_socketGuildUser)
@@ -79,14 +86,16 @@ namespace DiscordBot.Services
             //}
         }
 
-        private async Task OnUserLeft(SocketGuildUser user)
+        private Task OnUserLeft(SocketGuildUser user)
         {
             _logger.LogInformation($"OnUserLeft {DateTime.Now} on {user.Guild.Name}: {user.Username} left");
+            return Task.CompletedTask;
         }
 
-        private async Task OnCurrentUserUpdated(SocketSelfUser socketSelfUser, SocketSelfUser socketSelfUser2)
+        private Task OnCurrentUserUpdated(SocketSelfUser socketSelfUser, SocketSelfUser socketSelfUser2)
         {
             _logger.LogInformation($"OnCurrentUserUpdated {socketSelfUser.Username}");
+            return Task.CompletedTask;
         }
     }
 }
