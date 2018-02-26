@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Discord;
@@ -40,7 +41,7 @@ namespace DiscordBot.Services
                 LogLevelFromSeverity(message.Severity),
                 0,
                 message,
-                message.Exception,
+                message.Exception?.Demystify(),
                 (_1, _2) => message.ToString(prependTimestamp: false));
             return Task.CompletedTask;
         }
@@ -58,7 +59,7 @@ namespace DiscordBot.Services
                 LogLevelFromSeverity(message.Severity),
                 0,
                 message,
-                message.Exception,
+                message.Exception?.Demystify(),
                 (_1, _2) => message.ToString(prependTimestamp: false));
             return Task.CompletedTask;
         }
